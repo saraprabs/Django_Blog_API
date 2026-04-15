@@ -24,7 +24,7 @@ ALLOWED_HOSTS = ['my-cosmos-blog-api-2026.azurewebsites.net', '127.0.0.1', 'loca
 #SECRET_KEY = 'django-insecure-d7u&4g#$!=pgv7$5)m7j8osy-d#i7t((!xf%89!w-_u(qv^_fo'
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-local-key')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
