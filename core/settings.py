@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-local-key')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 CORS_ALLOW_ALL_ORIGINS = True
-
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Application definition
 
