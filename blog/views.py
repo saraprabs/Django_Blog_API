@@ -20,16 +20,28 @@ class PostViewSet(viewsets.ViewSet): # Changed from ModelViewSet to ViewSet
     
     def retrieve(self, request, id=None):
         """Handle GET /api/posts/{id}/"""
+        author = request.query_params.get('author')
+        if not author:
+            return Response(
+                {"error": "Partition key 'author' is required as a query parameter."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         try:
-            item = container.read_item(item=id, partition_key=id)
+            item = container.read_item(item=id, partition_key=author)
             return Response(item)
         except Exception:
             return Response({"error": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
         
     def destroy(self, request, id=None):
         """Handle DELETE /api/posts/{id}/"""
+        author = request.query_params.get('author')
+        if not author:
+            return Response(
+                {"error": "Partition key 'author' is required as a query parameter."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         try:
-            container.delete_item(item=id, partition_key=id)
+            container.delete_item(item=id, partition_key=author)
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception:
             return Response({"error": "Failed to delete"}, status=status.HTTP_400_BAD_REQUEST)
