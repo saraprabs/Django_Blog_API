@@ -18,22 +18,22 @@ A robust RESTful API built with Django REST Framework and Azure Cosmos DB (NoSQL
 - An Azure Cosmos DB (NoSQL) account
 
 ## 💻 Local Setup
-1. Clone the repository:
+### 1. Clone the repository:
 ```Bash
 git clone <your-repo-url>
 cd django-blog-api
 ```
-2. Create a Virtual Environment:
+### 2. Create a Virtual Environment:
 ```bash
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 ```
-3. Install Dependencies:
+### 3. Install Dependencies:
 ```
 Bash
 pip install -r requirements.txt
 ```
-4. Environment Variables:
+### 4. Environment Variables:
 ```bash
 COSMOS_URI="https://<your-account>.documents.azure.com:443/"
 COSMOS_KEY="<your-primary-key>"
@@ -41,7 +41,7 @@ COSMOS_DATABASE="blogdb"
 COSMOS_CONTAINER="posts"
 DJANGO_SECRET_KEY="your-local-secret"
 ```
-5. Run Locally:
+### 5. Run Locally:
    ```bash
    python manage.py runserver
    ```
@@ -72,10 +72,10 @@ az webapp deploy --resource-group <YourRG> --name <YourAppName> --src-path deplo
 | --------| --------| -------------|
 | GET| /posts| Retrieve all Blog posts|
 | POST| /posts| Create a new Blog post|
-| GET| /posts| Retrieve a specific post|
-| DELETE| /posts| Remove a specific Blog post|
+| GET| /posts/id/?author=authorname| Retrieve a specific post|
+| DELETE| /posts/id/?author=authorname| Remove a specific Blog post|
 
-#### Example POST Body:
+### Example POST Body:
 ```JSON
 {
     "title": "Azure Deployment",
