@@ -16,10 +16,10 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-COSMOS_ENDPOINT = os.getenv('COSMOS_URI')
+COSMOS_ENDPOINT = os.getenv('COSMOS_URI') # Or COSMOS_ENDPOINT
 COSMOS_KEY = os.getenv('COSMOS_KEY')
-COSMOS_DATABASE_NAME = "BlogData"
-COSMOS_CONTAINER_NAME = "Posts"
+COSMOS_DATABASE_NAME = os.getenv('DB_NAME', 'BlogData') 
+COSMOS_CONTAINER_NAME = os.getenv('CONTAINER_NAME', 'Posts')
 ALLOWED_HOSTS = ['my-cosmos-blog-api-2026.azurewebsites.net', '169.254.129.3', '127.0.0.1', 'localhost','*']
 
 # Quick-start development settings - unsuitable for production
