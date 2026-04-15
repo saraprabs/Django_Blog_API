@@ -15,7 +15,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_HOSTS = ['my-cosmos-blog-api-2026.azurewebsites.net', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['my-cosmos-blog-api-2026.azurewebsites.net', '169.254.129.3', '127.0.0.1', 'localhost','*']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
