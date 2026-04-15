@@ -1,7 +1,28 @@
-from rest_framework import viewsets
-from .models import Post
-from .serializers import PostSerializer
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+from django.conf import settings
+from azure.cosmos import CosmosClient
+# Keep your serializer if you want to use it for validation later
+from .serializers import PostSerializer 
 
-class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all().order_by('-created_at')
-    serializer_class = PostSerializer
+# Initialize Cosmos Client
+client = CosmosClient(settings.COSMOS_ENDPOINT, settings.COSMOS_KEY)
+database = client.get_database_client(settings.COSMOS_DATABASE_NAME)
+container = database.get_container_client(settings.COSMOS_CONTAINER_NAME)
+
+class PostViewSet(viewsets.ViewSet): # Changed from ModelViewSet to ViewSet
+    def list(self, request):
+        query = "SELECT * FROM c ORDER BY c.created_at DESC"
+        # Cosmos returns a proxy object, list() converts it to a real list
+        items = list(container.query_items(query=query, enable_cross_partition_query=True))
+        return Response(items)
+
+    def create(self, request):
+        data = request.data
+        # Ensure the item has an 'id' (Cosmos NoSQL requires a string id)
+        if 'id' not in data:
+            import uuid
+            data['id'] = str(uuid.uuid4())
+            
+        container.create_item(body=data)
+        return Response(data, status=status.HTTP_201_CREATED)
