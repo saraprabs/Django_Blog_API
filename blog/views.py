@@ -11,11 +11,28 @@ database = client.get_database_client(settings.COSMOS_DATABASE_NAME)
 container = database.get_container_client(settings.COSMOS_CONTAINER_NAME)
 
 class PostViewSet(viewsets.ViewSet): # Changed from ModelViewSet to ViewSet
+    lookup_field = 'id'
     def list(self, request):
         query = "SELECT * FROM c ORDER BY c.created_at DESC"
         # Cosmos returns a proxy object, list() converts it to a real list
         items = list(container.query_items(query=query, enable_cross_partition_query=True))
         return Response(items)
+    
+    def retrieve(self, request, id=None):
+        """Handle GET /api/posts/{id}/"""
+        try:
+            item = container.read_item(item=id, partition_key=id)
+            return Response(item)
+        except Exception:
+            return Response({"error": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+    def destroy(self, request, id=None):
+        """Handle DELETE /api/posts/{id}/"""
+        try:
+            container.delete_item(item=id, partition_key=id)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception:
+            return Response({"error": "Failed to delete"}, status=status.HTTP_400_BAD_REQUEST)
 
     def create(self, request):
         data = request.data
