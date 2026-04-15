@@ -16,7 +16,10 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 ALLOWED_HOSTS = ['my-cosmos-blog-api-2026.azurewebsites.net', '127.0.0.1', 'localhost']
-
+COSMOS_ENDPOINT = os.getenv('COSMOS_URI')
+COSMOS_KEY = os.getenv('COSMOS_KEY')
+COSMOS_DATABASE_NAME = "BlogData"
+COSMOS_CONTAINER_NAME = "Posts"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
